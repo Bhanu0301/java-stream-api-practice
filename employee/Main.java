@@ -11,7 +11,7 @@ public class Main {
                 new Employee(4,"Vamshi","Consulting", 50000)
         );
 
-        //1.Gruop by department : groupingBy
+        //1.Gruop by department : Collectors.groupingBy
         Map<String, List<Employee>> employeesByDepartment = employeeList.stream()
                 .collect(Collectors.groupingBy(Employee::getDept));
 
@@ -21,7 +21,7 @@ public class Main {
             employees.forEach(System.out::println);
         });
 
-        //2.Filter out employees with salary greater than 35,000
+        //2.Filter out employees with salary greater than 35,000 : Collectors.partitioningBy
         Map<Boolean, List<Employee>> partitionBySalary = employeeList.stream()
                 .collect(Collectors.partitioningBy(employee->employee.getSalary()>35000));
         System.out.println("Employees with salary greater than 35000 : ");
