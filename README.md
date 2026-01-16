@@ -93,6 +93,7 @@ stream.filter(x -> {
     System.out.println("filter");
     return x > 5;
 });
+```
 
 ## 🔹 Collectors: groupingBy and partitioningBy
 
