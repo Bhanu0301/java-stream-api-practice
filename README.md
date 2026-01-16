@@ -93,6 +93,92 @@ stream.filter(x -> {
     System.out.println("filter");
     return x > 5;
 });
+
+## 🔹 Collectors: groupingBy and partitioningBy
+
+### ✅ groupingBy
+
+`groupingBy` groups elements of a stream based on a classifier function.
+
+- Default result: `Map<K, List<T>>`
+- Variants: can use downstream collectors (e.g., `counting`, `summingInt`, etc.)
+
+**Example:**
+```java
+import java.util.*;
+import java.util.stream.*;
+
+public class GroupingExample {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Anna");
+
+        // Group names by first letter
+        Map<Character, List<String>> groupedByFirstLetter =
+                names.stream()
+                     .collect(Collectors.groupingBy(name -> name.charAt(0)));
+
+        System.out.println(groupedByFirstLetter);
+        // Output: {A=[Alice, Anna], B=[Bob], C=[Charlie], D=[David]}
+
+        // Count names by first letter
+        Map<Character, Long> countByFirstLetter =
+                names.stream()
+                     .collect(Collectors.groupingBy(name -> name.charAt(0), Collectors.counting()));
+
+        System.out.println(countByFirstLetter);
+        // Output: {A=2, B=1, C=1, D=1}
+    }
+}
+```
+
+---
+
+### ✅ partitioningBy
+
+`partitioningBy` divides elements into two groups based on a predicate.
+
+- Result: `Map<Boolean, List<T>>`
+- Keys: `true` → elements matching predicate, `false` → elements not matching
+
+**Example:**
+```java
+import java.util.*;
+import java.util.stream.*;
+
+public class PartitioningExample {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9);
+
+        // Partition numbers into even and odd
+        Map<Boolean, List<Integer>> partitioned =
+                numbers.stream()
+                       .collect(Collectors.partitioningBy(n -> n % 2 == 0));
+
+        System.out.println(partitioned);
+        // Output: {false=[1, 3, 5, 7, 9], true=[2, 4, 6, 8]}
+
+        // Count numbers in each partition
+        Map<Boolean, Long> countPartitioned =
+                numbers.stream()
+                       .collect(Collectors.partitioningBy(n -> n % 2 == 0, Collectors.counting()));
+
+        System.out.println(countPartitioned);
+        // Output: {false=5, true=4}
+    }
+}
+```
+
+---
+
+### 🔹 Key Differences
+
+| Feature          | groupingBy                           | partitioningBy                  |
+|------------------|--------------------------------------|---------------------------------|
+| Input            | Classifier function                  | Predicate (boolean condition)   |
+| Output           | `Map<K, List<T>>` (or other collector)| `Map<Boolean, List<T>>`         |
+| Number of groups | Many (depends on classifier)         | Exactly 2 (`true` and `false`)  |
+| Use case         | Categorize into multiple buckets     | Split into two categories       |
+
 ```
 ## 🔹 Parallel Streams
 
