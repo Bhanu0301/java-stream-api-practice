@@ -180,7 +180,7 @@ public class PartitioningExample {
 | Number of groups | Many (depends on classifier)         | Exactly 2 (`true` and `false`)  |
 | Use case         | Categorize into multiple buckets     | Split into two categories       |
 
-```
+
 ## 🔹 Parallel Streams
 
 A parallel stream processes elements concurrently using multiple threads.  
